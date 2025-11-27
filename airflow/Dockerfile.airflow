@@ -1,0 +1,10 @@
+FROM apache/airflow:2.9.2
+
+# Use the airflow user (this is what the image expects)
+USER airflow
+
+# Install extra Python deps WITHOUT constraints or version pin
+RUN pip install --no-cache-dir \
+    mlflow \
+    snowflake-connector-python \
+    pandas

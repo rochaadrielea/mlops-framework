@@ -1,0 +1,26 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Install system tools (optional but useful)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python libraries needed by the framework
+RUN pip install --no-cache-dir \
+    mlflow \
+    pandas \
+    numpy \
+    pyyaml \
+    snowflake-connector-python \
+    SQLAlchemy
+
+# Copy framework code + configs + templates
+COPY mlops_core /app/mlops_core
+COPY config /app/config
+COPY projects /app/projects
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python", "-c", "print('MLOps framework container ready. Plug in your project logic.')"]

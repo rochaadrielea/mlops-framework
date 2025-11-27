@@ -1,0 +1,17 @@
+datasets:
+  iot_events:
+    connection: "snowflake"
+    database: "IOTDATABASE"
+    schema: "RAW"
+    table: "IOT_EVENTS"
+
+  fridge_inventory:
+    connection: "snowflake"
+    database: "IOTDATABASE"
+    schema: "CURATED"
+    table: "FRIDGE_INVENTORY"
+
+  training_labels:
+    connection: "postgres"
+    schema: "public"
+    table: "TRAINING_LABELS"

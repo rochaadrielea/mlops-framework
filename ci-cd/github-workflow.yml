@@ -1,0 +1,32 @@
+name: mlops-framework-check
+
+on: [push, pull_request]
+
+jobs:
+  build-and-smoke-test:
+    runs-on: ubuntu-latest
+    env:
+      SNOWFLAKE_ACCOUNT:  ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_USER:     ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+
+      # Optional in CI (can be dummy)
+      MLFLOW_TRACKING_URI: "http://localhost:5000"
+      MLFLOW_EXPERIMENT: "FRAMEWORK_EXPERIMENT"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build base image
+        run: docker build -t company-mlops-base -f docker/Dockerfile.base .
+
+      - name: Import framework
+        run: |
+          docker run --rm \
+            -e SNOWFLAKE_ACCOUNT \
+            -e SNOWFLAKE_USER \
+            -e SNOWFLAKE_PASSWORD \
+            -e MLFLOW_TRACKING_URI \
+            -e MLFLOW_EXPERIMENT \
+            company-mlops-base \
+            python -c "import mlops_core; print('Framework OK')"

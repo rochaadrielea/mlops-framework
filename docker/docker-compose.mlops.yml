@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.10.0
+    container_name: mlops-mlflow
+    command: >
+      mlflow server
+      --backend-store-uri sqlite:///mlflow.db
+      --default-artifact-root /mlruns
+      --host 0.0.0.0
+      --port 5000
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlruns
+
+  framework:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.base
+    container_name: mlops-framework
+    depends_on:
+      - mlflow
+    environment:
+      # for Snowflake (from your local env or compose override)
+       SNOWFLAKE_ACCOUNT:  ${SNOWFLAKE_ACCOUNT}
+       SNOWFLAKE_USER:     ${SNOWFLAKE_USER}
+       SNOWFLAKE_PASSWORD: ${SNOWFLAKE_PASSWORD}
+
+      # MLflow integration
+       MLFLOW_TRACKING_URI: http://mlflow:5000
+       MLFLOW_EXPERIMENT:   FRAMEWORK_EXPERIMENT
+
+    command: >
+      python -c "import mlops_core; print('Framework OK – ready for data scientists')"

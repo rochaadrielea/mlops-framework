@@ -1,0 +1,11 @@
+run_name: "my_first_experiment"
+
+data:
+  datasets_config: "config/datasets/datasets.example.yaml"
+  input_dataset: "iot_events"
+  feature_store_table: "IOTDATABASE.FEATURES.FS_FRIDGE_FEATURES"
+
+params:
+  # DS-specific parameters (examples only)
+  learning_rate: 0.01
+  n_estimators: 100

@@ -1,0 +1,11 @@
+type: snowflake
+
+# In the real environment, these come from env vars:
+#   SNOWFLAKE_ACCOUNT, SNOWFLAKE_USER, SNOWFLAKE_PASSWORD
+# We do NOT store secrets here. This file is just documentation.
+
+defaults:
+  role: "ACCOUNTADMIN"
+  database: "IOTDATABASE"
+  warehouse: "COMPUTE_WH"
+  schema: "FRAMEWORK_PROD"
