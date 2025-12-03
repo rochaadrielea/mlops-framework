@@ -1,4 +1,4 @@
-# Company MLOps Framework
+# MLOps Framework
 
 A modular and scalable MLOps framework that standardizes the lifecycle of machine learning projects.  
 It supports data ingestion, orchestration, training, deployment, monitoring, reproducibility, and CI/CD automation.
